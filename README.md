@@ -59,7 +59,28 @@ Siga estes passos para obter as credenciais de acesso às APIs.
 
 ### Parte B: Planilhas para consulta
 
-O script realiza a consulta em duas planilhas
+O script realiza a consulta em duas planilhas, uma de pedidos e outra de produtos
+
+1. **A planilha de pedidos**
+
+    A planilha de pedido é onde fica registrado a quantidade de cada produto que o cliente solicitou, a ordem dos produtos nas colunas deve ser igual ordem dos produtos nas linhas da planilha de produtos, estrutura da planilha:
+
+| Endereço de e-mail | Produto 1 | Produto 2 |
+|-------------|-------------|-------------|
+| E-mail cliente 1 | Quantidade | Quantidade |
+| E-mail cliente 2 | Quantidade | Quantidade |
+| E-mail cliente 3 | Quantidade | Quantidade |
+
+2. **A planilha de produtos**
+
+    Esta planilha deve conter as informações de todos os produtos disponiveis, estrutura da planilha:
+
+| Descricão | Unidade | Preco Unitário | Quantidade em Estoque | Preco de Venda | Repor |
+|-------------|-------------|-------------|-------------|-------------|-------------|
+| Produto 1 | CX | 10,0 | 10 | 15,50 | 0 |
+| Produto 2 | CX | 20,0 | 10 | 18,50 | 0 |
+
+Ambas as planilhas devem estar no google drive da conta logada.
 
 ### Parte C: Configuração do Ambiente Local
 
@@ -112,12 +133,15 @@ Agora, prepare sua máquina para executar o script.
     # (Opcional) ID da pasta no Google Drive onde o arquivo de produtos está.
     DRIVE_PRODUTOS_FOLDER_ID="SEU_ID_DA_PASTA_NO_DRIVE"
 
-    # Nome do arquivo de produtos (pode ser .xlsx ou Google Sheet).
+    # Nome do arquivo de produtos no seu drive (pode ser .xlsx ou Google Sheet).
     # Se deixado em branco, busca uma aba "Produtos" na mesma planilha dos pedidos.
     PRODUTOS_FILENAME="Tabela de Produtos.xlsx"
 
     # E-mail que será usado para enviar as confirmações.
     SENDER_EMAIL="seu-email@gmail.com"
+
+    # Informativo para adicionar +cliente no e-mail enviado
+    USE_PLUS_ADDRESSING=true    
     ```
 
 ## ▶️ Como Executar o Script
