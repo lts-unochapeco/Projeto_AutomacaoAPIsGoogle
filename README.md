@@ -243,7 +243,8 @@ graph TD
     E --> F[Calcular valor total do pedido];
     F --> G[Montar corpo do e-mail personalizado];
     G --> H[Enviar e-mail via Gmail API];
-    H --> I(Fim);
+    H --> D;
+    D --> I(Fim);
 ```
 
 1.  **Instale o Jupyter Notebook**
