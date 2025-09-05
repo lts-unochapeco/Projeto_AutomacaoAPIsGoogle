@@ -1,0 +1,41 @@
+@startuml
+!define RECTANGLE class
+skinparam class {
+    BackgroundColor White
+    ArrowColor Black
+    BorderColor Black
+}
+
+actor "Usuário (Dev)" as User
+actor "Cliente" as Cli
+
+rectangle "Google Cloud\nOAuth 2.0" as Auth {
+    [Credenciais\nclient_secret.json]
+}
+
+rectangle "Google Sheets" as Sheets {
+    [Planilha de Pedidos]
+}
+
+rectangle "Google Drive" as Drive {
+    [Tabela de Produtos.xlsx]
+}
+
+rectangle "Script Python" as Python {
+    [Script de Automação]
+}
+
+rectangle "Gmail API" as Gmail {
+    [Envio de E-mails]
+}
+
+User --> Auth : Autenticação OAuth
+Auth --> Python : Token OAuth
+
+Sheets --> Python : Lê dados dos pedidos
+Drive --> Python : Lê dados dos produtos
+
+Python --> Gmail : Envia e-mails personalizados
+Gmail --> Cli : E-mail de confirmação enviado
+
+@enduml
