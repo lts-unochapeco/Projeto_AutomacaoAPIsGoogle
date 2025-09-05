@@ -2,6 +2,34 @@
 
 Este projeto automatiza o fluxo de processamento de pedidos utilizando as APIs do Google. Ele lê os pedidos de uma planilha do Google Sheets, busca informações de produtos em outra planilha (ou arquivo Excel) no Google Drive, calcula os totais e envia e-mails de confirmação personalizados via Gmail.
 
+### Arquitetura da Solução
+
+O diagrama abaixo ilustra os principais componentes e o fluxo de dados da automação.
+
+```mermaid
+graph TD
+    subgraph "Ambiente Local"
+        A[Usuário] -->|Executa o script| B(Script Python);
+        C{/.config/pedidos-google/client_secret.json} -->|Credenciais| B;
+        D{/.env} -->|Configurações| B;
+    end
+
+    subgraph "Google Cloud Platform"
+        B -->|Usa API| E(Google Sheets API);
+        B -->|Usa API| F(Google Drive API);
+        B -->|Usa API| G(Gmail API);
+    end
+
+    subgraph "Dados no Google Drive"
+        E -->|Lê dados de| H[(Planilha de Pedidos)];
+        F -->|Lê arquivo de| I[(Planilha/Excel de Produtos)];
+    end
+
+    subgraph "Comunicação Externa"
+         G -->|Envia e-mail para| J((Cliente Final));
+    end
+```
+
 ## ✨ Funcionalidades
 
 - **Leitura de Pedidos:** Extrai dados de pedidos diretamente de uma planilha do Google Sheets.
@@ -9,6 +37,29 @@ Este projeto automatiza o fluxo de processamento de pedidos utilizando as APIs d
 - **Cálculo de Totais:** Processa os pedidos e calcula o valor total a ser cobrado de cada cliente.
 - **Envio de E-mails:** Envia e-mails de confirmação personalizados para cada cliente através da API do Gmail.
 - **Segurança:** Armazena os tokens de autenticação OAuth de forma segura no diretório `~/.config/pedidos-google/`.
+
+### Casos de Uso
+
+```mermaid
+graph TD
+    
+    Usuario["Usuário (Operador do Script)"]
+
+    subgraph "Pipeline de Automação"
+        Processar("Processar Pedidos")
+        LerPedidos("(Ler Planilha de Pedidos)")
+        ConsultarProdutos("(Consultar Dados de Produtos)")
+        CalcularTotais("(Calcular Totais)")
+        EnviarEmail("(Enviar E-mail de Confirmação)")
+    end
+
+    Usuario --> Processar
+
+    Processar -.->|inclui| LerPedidos
+    Processar -.->|inclui| ConsultarProdutos
+    Processar -.->|inclui| CalcularTotais
+    Processar -.->|inclui| EnviarEmail
+```
 
 ## 📋 Requisitos
 
@@ -82,6 +133,39 @@ O script realiza a consulta em duas planilhas, uma de pedidos e outra de produto
 
 Ambas as planilhas devem estar no google drive da conta logada.
 
+### Modelo de Dados Conceitual
+
+O relacionamento entre os dados contidos nessas planilhas pode ser representado pelo seguinte modelo:
+
+```mermaid
+erDiagram
+    CLIENTE ||--o{ PEDIDO : "faz"
+    PEDIDO {
+        string email_cliente
+        int qnt-pedido
+    }
+    CLIENTE {
+        string email
+        string nome
+    }
+    PEDIDO ||--|{ ITEM_PEDIDO : "contém"
+    ITEM_PEDIDO {
+        string email_cliente
+        string nome_produto
+        int quantidade
+        
+    }
+    PRODUTO ||--o{ ITEM_PEDIDO : "é um"
+    PRODUTO {
+        string Descricao
+        string Unidade
+        float Preco_Unitario
+        int Estoque
+        float preco_venda
+        int repor
+    }
+```
+
 ### Parte C: Configuração do Ambiente Local
 
 Agora, prepare sua máquina para executar o script.
@@ -145,6 +229,22 @@ Agora, prepare sua máquina para executar o script.
     ```
 
 ## ▶️ Como Executar o Script
+
+Antes de executar, é útil entender o fluxo de trabalho que o script seguirá. O diagrama de atividades abaixo descreve o processo completo.
+
+### Fluxo de Execução do Script
+
+```mermaid
+graph TD
+    A(Início) --> B{Autenticar com APIs Google};
+    B --> C[Ler planilha de Pedidos];
+    C --> D{Para cada linha de pedido};
+    D --> E[Ler dados do produto no Drive];
+    E --> F[Calcular valor total do pedido];
+    F --> G[Montar corpo do e-mail personalizado];
+    G --> H[Enviar e-mail via Gmail API];
+    H --> I(Fim);
+```
 
 1.  **Instale o Jupyter Notebook**
     ```bash
