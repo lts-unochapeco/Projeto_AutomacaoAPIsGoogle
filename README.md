@@ -10,23 +10,23 @@ O diagrama abaixo ilustra os principais componentes e o fluxo de dados da automa
 graph TD
     subgraph "Ambiente Local"
         A[Usuário] -->|Executa o script| B(Script Python);
-        C{/.config/pedidos-google/client_secret.json} -->|Credenciais| B;
-        D{/.env} -->|Configurações| B;
+        C[//.config/pedidos-google/client_secret.json/] -->|Credenciais| B;
+        D[//.env/] -->|Configurações| B;
     end
 
     subgraph "Google Cloud Platform"
-        B -->|Usa API| E(Google Sheets API);
-        B -->|Usa API| F(Google Drive API);
-        B -->|Usa API| G(Gmail API);
+        B -->|Usa API| E{{Google Sheets API}};
+        B -->|Usa API| F{{Google Drive API}};
+        B -->|Usa API| G{{Gmail API}};
     end
 
     subgraph "Dados no Google Drive"
-        E -->|Lê dados de| H[(Planilha de Pedidos)];
-        F -->|Lê arquivo de| I[(Planilha/Excel de Produtos)];
+        E -->|Lê dados de| H[/Planilha de Pedidos/];
+        F -->|Lê arquivo de| I[/Planilha/Excel de Produtos/];
     end
 
     subgraph "Comunicação Externa"
-         G -->|Envia e-mail para| J((Cliente Final));
+         G -->|Envia e-mail para| J[Cliente Final];
     end
 ```
 
