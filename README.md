@@ -108,6 +108,42 @@ Siga estes passos para obter as credenciais de acesso às APIs.
     * **‼️ IMPORTANTE:** Renomeie o arquivo baixado para `client_secret.json`.
     * Volte para a **Tela de permissões OAuth > Público-alvo** e, na seção **"Usuários de teste"**, adicione a Conta Google que você usará para executar o script.
 
+```mermaid
+graph TD
+    subgraph Criação do Projeto
+        A[Acessar o Google Cloud Console] --> B[Clique no seletor de projetos];
+        B --> C[Clicar em 'NOVO PROJETO'];
+        C --> D[Nomear o projeto, ex: Automacao-Pedidos];
+        D --> E[Clicar em 'CRIAR'];
+    end
+
+    subgraph Configuração de APIs
+        E --> F[No projeto criado, ir para 'APIs e serviços > Biblioteca'];
+        F --> G[Pesquisar e ativar 'Google Sheets API'];
+        G --> H[Pesquisar e ativar 'Google Drive API'];
+        H --> I[Pesquisar e ativar 'Gmail API'];
+    end
+
+    subgraph Tela de Consentimento OAuth
+        I --> J[Acessar 'APIs e serviços > Tela de consentimento OAuth'];
+        J --> K[Selecionar tipo de usuário 'Externo' e 'CRIAR'];
+        K --> L[Preencher informações obrigatórias: Nome do app, E-mail de suporte, Contato do desenvolvedor];
+        L --> M[Salvar e continuar];
+    end
+
+    subgraph Criação e Gestão de Credenciais
+        M --> N[Acessar 'APIs e serviços > Credenciais'];
+        N --> O[Clicar em '+ CRIAR CREDENCIAIS'];
+        O --> P[Selecionar 'ID do cliente OAuth'];
+        P --> Q[Escolher 'App para computador' como Tipo de aplicativo];
+        Q --> R[Dar um nome e clicar em 'CRIAR'];
+        R --> S[Fazer o download do arquivo JSON];
+        S --> T[Renomear arquivo para 'client_secret.json'];
+        T --> U[Voltar à 'Tela de permissões OAuth > Público-alvo' e adicionar Usuários de teste];
+        U --> V[Fim do Processo];
+    end
+```
+
 ### Parte B: Planilhas para consulta
 
 O script realiza a consulta em duas planilhas, uma de pedidos e outra de produtos
@@ -236,15 +272,15 @@ Antes de executar, é útil entender o fluxo de trabalho que o script seguirá. 
 
 ```mermaid
 graph TD
-    A(Início) --> B{Autenticar com APIs Google};
-    B --> C[Ler planilha de Pedidos];
+    A[Início] --> B(Autenticar com APIs Google);
+    B --> C(Ler planilha de Pedidos);
     C --> D{Para cada linha de pedido};
-    D --> E[Ler dados do produto no Drive];
-    E --> F[Calcular valor total do pedido];
-    F --> G[Montar corpo do e-mail personalizado];
-    G --> H[Enviar e-mail via Gmail API];
+    D --> E(Ler dados do produto no Drive);
+    E --> F(Calcular valor total do pedido);
+    F --> G(Montar corpo do e-mail personalizado);
+    G --> H(Enviar e-mail via Gmail API);
     H --> D;
-    D --> I(Fim);
+    D --> I[Fim];
 ```
 
 1.  **Instale o Jupyter Notebook**
